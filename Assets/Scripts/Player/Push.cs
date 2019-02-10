@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Push : MonoBehaviour
 {
+    public float pushPower = 2.0f;
+
     public void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (Input.GetButton("Push"))
         {
-            float pushPower = 1.0f;
             Rigidbody body = hit.collider.attachedRigidbody;
 
             // no rigidbody
