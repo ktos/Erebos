@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ceiling
+  - Pushable
   layers:
   - Default
   - TransparentFX
