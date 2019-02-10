@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MapTileGenerator : MonoBehaviour
 {
+    [Header("Tiles")]
     public Transform floor;
+
     public Transform ceiling;
     public Transform wall;
     public Transform door;
@@ -14,7 +17,12 @@ public class MapTileGenerator : MonoBehaviour
     public TextAsset level;
     public GameObject sceneSwitcher;
 
+    [Header("Items")]
+    public Transform barrel;
+
+    [Header("Dungeon Settings")]
     public int width;
+
     public int height;
     public int things;
     public int seed = -1;
@@ -40,10 +48,25 @@ public class MapTileGenerator : MonoBehaviour
 
         CreateLevel(dungeon.Tiles);
 
+        CreateObjects(dungeon.Doodles);
+
         if (dungeon.Start.Item1 == -1)
             MovePlayerToRandomTile(r, dungeon.Tiles);
         else
             MovePlayerToTile(dungeon.Start.Item1, dungeon.Start.Item2);
+    }
+
+    private void CreateObjects(IEnumerable<Item> doodles)
+    {
+        foreach (var item in doodles)
+        {
+            switch (item.Type)
+            {
+                default:
+                    Instantiate(barrel, new Vector3(item.X, item.Z, item.Y), Quaternion.Euler(-item.RotationX, -item.RotationY, -item.RotationZ));
+                    break;
+            }
+        }
     }
 
     private void MovePlayerToRandomTile(BasicRandom r, TileType[,] dungeon)

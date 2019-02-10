@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 
@@ -13,7 +14,33 @@ public enum TileType
     Door
 }
 
-public class TileHelper
+public enum ItemType
+{
+    Barrel,
+    Bars,
+    Bones,
+    Book,
+    BrokenColumn,
+    Candelabre,
+    Carpet,
+    Column,
+    Chest,
+    Potion,
+    Torch
+}
+
+public class Item
+{
+    public ItemType Type { get; set; }
+    public float X { get; set; }
+    public float Y { get; set; }
+    public float Z { get; set; }
+    public float RotationX { get; set; }
+    public float RotationY { get; set; }
+    public float RotationZ { get; set; }
+}
+
+public static class TileHelper
 {
     public static char TileTypeToText(TileType tile)
     {
@@ -67,6 +94,7 @@ public class Dungeon
 {
     public TileType[,] Tiles { get; set; }
     public Tuple<int, int> Start { get; set; }
+    public List<Item> Doodles { get; set; }
 }
 
 public class DungeonGenerator
@@ -107,7 +135,24 @@ public class DungeonGenerator
 
     public static Dungeon FromFile(string fileContents)
     {
-        var lines = fileContents.Split('\n');
+        var fileLines = fileContents.Split('\n');
+        var lines = new List<string>();
+
+        foreach (var item in fileLines)
+        {
+            var hash = item.IndexOf('#');
+
+            if (hash > -1)
+            {
+                if (hash != 0)
+                {
+                    lines.Add(item.Substring(0, hash).TrimEnd());
+                }
+            }
+            else
+                lines.Add(item.TrimEnd());
+        }
+
         var header = lines[0].Split(',');
 
         // header: rows,cols,startx,starty
@@ -126,7 +171,30 @@ public class DungeonGenerator
         start.Item1 = int.Parse(header[2]);
         start.Item2 = int.Parse(header[3]);
 
-        return new Dungeon { Tiles = tileMap, Start = start };
+        var doodles = new List<Item>();
+
+        for (int i = int.Parse(header[0]) + 1; i < lines.Count; i++)
+        {
+            var itemDescription = lines[i].Split(',');
+            doodles.Add(ParseItem(itemDescription));
+        }
+
+        return new Dungeon { Tiles = tileMap, Start = start, Doodles = doodles };
+    }
+
+    private static Item ParseItem(string[] itemDescription)
+    {
+        Item d = new Item();
+
+        d.Type = (ItemType)int.Parse(itemDescription[0]);
+        d.X = float.Parse(itemDescription[1], CultureInfo.InvariantCulture);
+        d.Y = float.Parse(itemDescription[2], CultureInfo.InvariantCulture);
+        d.Z = float.Parse(itemDescription[3], CultureInfo.InvariantCulture);
+        d.RotationX = float.Parse(itemDescription[4], CultureInfo.InvariantCulture);
+        d.RotationY = float.Parse(itemDescription[5], CultureInfo.InvariantCulture);
+        d.RotationZ = float.Parse(itemDescription[6], CultureInfo.InvariantCulture);
+
+        return d;
     }
 
     public DungeonGenerator(IRandomize rnd, Action<string> logger)
