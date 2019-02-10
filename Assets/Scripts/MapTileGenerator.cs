@@ -23,21 +23,27 @@ public class MapTileGenerator : MonoBehaviour
     {
         var r = new BasicRandom(seed);
 
-        TileType[,] tiles;
+        Dungeon dungeon;
         if (level == null)
         {
-            Dungeon d = new Dungeon(r, s => { Debug.Log("Dungeon: " + s); });
+            DungeonGenerator d = new DungeonGenerator(r, s => { Debug.Log("Dungeon: " + s); });
             d.CreateDungeon(width, height, things);
 
-            tiles = d.GetDungeonAs2D();
+            dungeon = new Dungeon();
+            dungeon.Tiles = d.GetDungeonAs2D();
+            dungeon.Start = new Tuple<int, int> { Item1 = -1, Item2 = -1 };
         }
         else
         {
-            tiles = Dungeon.FileToTileMap(level.text);
+            dungeon = DungeonGenerator.FromFile(level.text);
         }
 
-        CreateLevel(tiles);
-        MovePlayerToRandomTile(r, tiles);
+        CreateLevel(dungeon.Tiles);
+
+        if (dungeon.Start.Item1 == -1)
+            MovePlayerToRandomTile(r, dungeon.Tiles);
+        else
+            MovePlayerToTile(dungeon.Start.Item1, dungeon.Start.Item2);
     }
 
     private void MovePlayerToRandomTile(BasicRandom r, TileType[,] dungeon)
@@ -51,6 +57,11 @@ public class MapTileGenerator : MonoBehaviour
             randomTile = dungeon[x, y];
         }
 
+        MovePlayerToTile(x, y);
+    }
+
+    private void MovePlayerToTile(int x, int y)
+    {
         player.transform.position = new Vector3(x, 1, y);
     }
 
@@ -77,15 +88,19 @@ public class MapTileGenerator : MonoBehaviour
                             case Direction.North:
                                 rotate = 180;
                                 break;
+
                             case Direction.East:
                                 rotate = 270;
                                 break;
+
                             case Direction.South:
                                 rotate = 0;
                                 break;
+
                             case Direction.West:
                                 rotate = 90;
                                 break;
+
                             case Direction.Unknown:
                                 break;
                         }

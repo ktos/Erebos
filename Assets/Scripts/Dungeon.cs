@@ -21,12 +21,16 @@ public class TileHelper
         {
             case TileType.Unused:
                 return ' ';
+
             case TileType.Wall:
                 return 'X';
+
             case TileType.Floor:
                 return 'F';
+
             case TileType.Door:
                 return 'D';
+
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -38,12 +42,16 @@ public class TileHelper
         {
             case 'X':
                 return TileType.Wall;
+
             case 'F':
                 return TileType.Floor;
+
             case ' ':
                 return TileType.Unused;
+
             case 'D':
                 return TileType.Door;
+
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -57,46 +65,54 @@ public enum Direction
 
 public class Dungeon
 {
+    public TileType[,] Tiles { get; set; }
+    public Tuple<int, int> Start { get; set; }
+}
 
+public class DungeonGenerator
+{
     // misc. messages to print
-    const string MsgXSize = "X size of dungeon: \t";
+    private const string MsgXSize = "X size of dungeon: \t";
 
-    const string MsgYSize = "Y size of dungeon: \t";
+    private const string MsgYSize = "Y size of dungeon: \t";
 
-    const string MsgMaxObjects = "max # of objects: \t";
+    private const string MsgMaxObjects = "max # of objects: \t";
 
-    const string MsgNumObjects = "# of objects made: \t";
+    private const string MsgNumObjects = "# of objects made: \t";
 
     // max size of the map
-    int xmax = 500; //columns
-    int ymax = 500; //rows
+    private int xmax = 500; //columns
+
+    private int ymax = 500; //rows
 
     // size of the map
-    int _xsize;
-    int _ysize;
+    private int _xsize;
+
+    private int _ysize;
 
     // number of "objects" to generate on the map
-    int _objects;
+    private int _objects;
 
     // define the %chance to generate either a room or a corridor on the map
     // BTW, rooms are 1st priority so actually it's enough to just define the chance
     // of generating a room
-    const int ChanceRoom = 75;
+    private const int ChanceRoom = 75;
 
     // our map
-    TileType[] _dungeonMap = { };
+    private TileType[] _dungeonMap = { };
 
-    readonly IRandomize _rnd;
+    private readonly IRandomize _rnd;
 
-    readonly Action<string> _logger;
+    private readonly Action<string> _logger;
 
-    public static TileType[,] FileToTileMap(string fileContents)
+    public static Dungeon FromFile(string fileContents)
     {
         var lines = fileContents.Split('\n');
-        var dim = lines[0].Split(',');
+        var header = lines[0].Split(',');
 
-        var tileMap = new TileType[int.Parse(dim[0]), int.Parse(dim[1])];
+        // header: rows,cols,startx,starty
 
+        var tileMap = new TileType[int.Parse(header[0]), int.Parse(header[1])];
 
         for (int i = 0; i < tileMap.GetLength(0); i++)
         {
@@ -106,10 +122,14 @@ public class Dungeon
             }
         }
 
-        return tileMap;
+        var start = new Tuple<int, int>();
+        start.Item1 = int.Parse(header[2]);
+        start.Item2 = int.Parse(header[3]);
+
+        return new Dungeon { Tiles = tileMap, Start = start };
     }
 
-    public Dungeon(IRandomize rnd, Action<string> logger)
+    public DungeonGenerator(IRandomize rnd, Action<string> logger)
     {
         _rnd = rnd;
         _logger = logger;
@@ -130,10 +150,13 @@ public class Dungeon
         {
             case Direction.North:
                 return xt == a(x, xlen) || xt == b(x, xlen) || yt == y || yt == y - ylen + 1;
+
             case Direction.East:
                 return xt == x || xt == x + xlen - 1 || yt == a(y, ylen) || yt == b(y, ylen);
+
             case Direction.South:
                 return xt == a(x, xlen) || xt == b(x, xlen) || yt == y || yt == y + ylen - 1;
+
             case Direction.West:
                 return xt == x || xt == x - xlen + 1 || yt == a(y, ylen) || yt == b(y, ylen);
         }
@@ -168,15 +191,19 @@ public class Dungeon
             case Direction.North:
                 for (var xt = a(x, xlen); xt < b(x, xlen); xt++) for (var yt = y; yt > y - ylen; yt--) yield return new PointI { X = xt, Y = yt };
                 break;
+
             case Direction.East:
                 for (var xt = x; xt < x + xlen; xt++) for (var yt = a(y, ylen); yt < b(y, ylen); yt++) yield return new PointI { X = xt, Y = yt };
                 break;
+
             case Direction.South:
                 for (var xt = a(x, xlen); xt < b(x, xlen); xt++) for (var yt = y; yt < y + ylen; yt++) yield return new PointI { X = xt, Y = yt };
                 break;
+
             case Direction.West:
                 for (var xt = x; xt > x - xlen; xt--) for (var yt = a(y, ylen); yt < b(y, ylen); yt++) yield return new PointI { X = xt, Y = yt };
                 break;
+
             default:
                 yield break;
         }
@@ -208,7 +235,6 @@ public class Dungeon
                                  Tuple.Create(new PointI { X = v.X - 1, Y = v.Y }, Direction.East),
                                  Tuple.Create(new PointI { X = v.X , Y = v.Y-1 }, Direction.South),
                                  Tuple.Create(new PointI { X = v.X +1, Y = v.Y  }, Direction.West),
-
                              };
         return points.Where(p => InBounds(p.Item1));
     }
@@ -312,12 +338,16 @@ public class Dungeon
         {
             case 0:
                 return Direction.North;
+
             case 1:
                 return Direction.East;
+
             case 2:
                 return Direction.South;
+
             case 3:
                 return Direction.West;
+
             default:
                 throw new InvalidOperationException();
         }
@@ -397,22 +427,25 @@ public class Dungeon
                             xmod = 0;
                             ymod = -1;
                             break;
+
                         case Direction.East:
                             xmod = 1;
                             ymod = 0;
                             break;
+
                         case Direction.South:
                             xmod = 0;
                             ymod = 1;
                             break;
+
                         case Direction.West:
                             xmod = -1;
                             ymod = 0;
                             break;
+
                         default:
                             throw new InvalidOperationException();
                     }
-
 
                     // check that we haven't got another door nearby, so we won't get alot of openings besides
                     // each other
@@ -420,16 +453,13 @@ public class Dungeon
                     if (GetCellType(newx, newy + 1) == TileType.Door) // north
                     {
                         validTile = null;
-
                     }
-
                     else if (GetCellType(newx - 1, newy) == TileType.Door) // east
                         validTile = null;
                     else if (GetCellType(newx, newy - 1) == TileType.Door) // south
                         validTile = null;
                     else if (GetCellType(newx + 1, newy) == TileType.Door) // west
                         validTile = null;
-
 
                     // if we can, jump out of the loop and continue with the rest
                     if (validTile.HasValue) break;
@@ -477,7 +507,7 @@ public class Dungeon
         return true;
     }
 
-    void Initialize()
+    private void Initialize()
     {
         for (int y = 0; y < this._ysize; y++)
         {
@@ -489,12 +519,10 @@ public class Dungeon
     }
 
     // setting a tile's type
-    void SetCell(int x, int y, TileType celltype)
+    private void SetCell(int x, int y, TileType celltype)
     {
         this._dungeonMap[x + this._xsize * y] = celltype;
     }
-
-
 }
 
 internal class Tuple
@@ -523,7 +551,7 @@ public interface IRandomize
 
 public class BasicRandom : IRandomize
 {
-    readonly System.Random rnd;
+    private readonly System.Random rnd;
 
     public BasicRandom(int seed = -1)
     {
