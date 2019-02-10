@@ -13,9 +13,6 @@ public class MapTileGenerator : MonoBehaviour
     public Transform upstairs;
     public Transform downstairs;
     public Transform corridor;
-    public GameObject player;
-    public TextAsset level;
-    public GameObject sceneSwitcher;
 
     [Header("Items")]
     public Transform barrel;
@@ -26,6 +23,12 @@ public class MapTileGenerator : MonoBehaviour
     public int height;
     public int things;
     public int seed = -1;
+
+    [Header("Miscellaneous")]
+    public GameObject player;
+
+    public TextAsset level;
+    public GameObject sceneSwitcher;
 
     private void Start()
     {

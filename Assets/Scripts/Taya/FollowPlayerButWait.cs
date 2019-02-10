@@ -5,7 +5,7 @@ public class FollowPlayerButWait : MonoBehaviour
     public GameObject player;
     public float low = 1.4f;
     public float high = 2.4f;
-    public float speed = 0.01f;
+    public float bounceSpeed = 0.01f;
 
     private Vector3 start;
     private bool up = false;
@@ -25,7 +25,7 @@ public class FollowPlayerButWait : MonoBehaviour
             var temp = transform.position;
             if (up)
             {
-                temp.y += speed;
+                temp.y += bounceSpeed;
                 transform.position = temp;
                 if (transform.position.y >= high)
                 {
@@ -34,7 +34,7 @@ public class FollowPlayerButWait : MonoBehaviour
             }
             else
             {
-                temp.y -= speed;
+                temp.y -= bounceSpeed;
                 transform.position = temp;
                 if (transform.position.y <= low)
                 {
