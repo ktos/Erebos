@@ -373,6 +373,10 @@ PrefabInstance:
       propertyPath: pushPower
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1512005605, guid: 5e7584b5de978e249aa2bdcdab05ad45, type: 3}
+      propertyPath: m_Intensity
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e7584b5de978e249aa2bdcdab05ad45, type: 3}
 --- !u!1 &518979302 stripped
@@ -766,6 +770,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1512005603 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1512005603, guid: 5e7584b5de978e249aa2bdcdab05ad45,
+    type: 3}
+  m_PrefabInstance: {fileID: 493403322}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1512005606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512005603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 438055a0df6442f41ba577f9469ba02f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxReduction: 0.2
+  MaxIncrease: 0.2
+  RateDamping: 0.1
+  Strength: 300
+  StopFlickering: 1
 --- !u!1 &1554534193
 GameObject:
   m_ObjectHideFlags: 0
