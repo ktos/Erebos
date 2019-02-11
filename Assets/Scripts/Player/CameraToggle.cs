@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class CameraToggle : MonoBehaviour
 {
+    public Color ambientOverview = Color.grey;
+    public Color ambientFpp = Color.black;
+
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.C))
@@ -13,7 +16,8 @@ public class CameraToggle : MonoBehaviour
             camera.overview = !camera.overview;
 
             GameObject.FindGameObjectsWithTag("Ceiling").ToList().ForEach(z => z.GetComponent<MeshRenderer>().enabled = !camera.overview);
-            RenderSettings.ambientIntensity = camera.overview ? 1.5f : 0;
+
+            RenderSettings.ambientLight = camera.overview ? ambientOverview : ambientFpp;
         }
     }
 }
