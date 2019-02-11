@@ -19,33 +19,16 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _2D:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ReflectTex:
-        m_Texture: {fileID: 8900000, guid: 25793ebbbd111a7011005aba44295342, type: 2}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _RefractTex:
         m_Texture: {fileID: 8900000, guid: 734da025ca1ef6843be1721ea4b7fbc1, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Emission: 2
-    - _Emissive: 0
-    - _EnvironmentLight: 1.5
-    - _IndexOfRefraction: 2.14
-    - _ReflectionStrength: 1
+    - _EnvironmentLight: 0.83
+    - _ReflectionStrength: 1.06
     m_Colors:
-    - _Color: {r: 0.36598763, g: 0.36598763, b: 0.36598763, a: 1}
-    - _MainTex_ST: {r: 1, g: 1, b: 0, a: 0}
-    - _ReflectTex_ST: {r: 1, g: 1, b: 0, a: 0}
-    - _RefractTex_ST: {r: 1, g: 1, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6
