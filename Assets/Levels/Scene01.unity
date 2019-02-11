@@ -410,7 +410,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1512005605, guid: 5e7584b5de978e249aa2bdcdab05ad45, type: 3}
       propertyPath: m_Intensity
-      value: 1
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1512005605, guid: 5e7584b5de978e249aa2bdcdab05ad45, type: 3}
+      propertyPath: m_Lightmapping
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e7584b5de978e249aa2bdcdab05ad45, type: 3}
