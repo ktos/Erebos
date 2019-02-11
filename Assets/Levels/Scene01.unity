@@ -1269,6 +1269,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 493403322}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1355246766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355246764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d488ac43a1e4c945bf21af01fb2abd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseSensitivity: 100
+  clampAngle: 80
 --- !u!1 &1408060809
 GameObject:
   m_ObjectHideFlags: 0
