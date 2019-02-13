@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 internal class DialogueLine
@@ -67,16 +69,120 @@ internal class Dialogue
 
 public class DialogueManager : MonoBehaviour
 {
+    [Header("Dialogue Text Objects")]
+    public GameObject TextGroup;
+
+    public GameObject MainText;
+
+    public GameObject Answer1;
+    public GameObject Answer2;
+    public GameObject Answer3;
+
     [Header("Miscellaneous")]
-    public TextAsset dialogueFile;
+    public TextAsset DialogueFile;
 
     private Dialogue dialogue;
 
     private void Start()
     {
-        if (dialogueFile != null)
+        if (DialogueFile != null)
         {
-            dialogue = Dialogue.FromFile(dialogueFile.text);
+            dialogue = Dialogue.FromFile(DialogueFile.text);
         }
+        current = null;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.BackQuote))
+        {
+            if (current == null)
+                ShowLine("d1");
+            else
+                HideCurrent();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Answer(1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Answer(2);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Answer(3);
+        }
+    }
+
+    private DialogueLine current;
+
+    public void Answer(int number)
+    {
+        if (current != null && current.Children != null && current.Children.Count > number - 1)
+        {
+            var action = current.Children[number - 1].ActionId;
+            if (action != null)
+            {
+                if (action.StartsWith("d"))
+                {
+                    ShowLine(action);
+                }
+            }
+            else
+            {
+                HideCurrent();
+            }
+        }
+    }
+
+    public void ShowLine(string dialogueId)
+    {
+        TextGroup.SetActive(true);
+
+        if (!dialogue.Lines.ContainsKey(dialogueId))
+            throw new ArgumentException("Wrong dialogue ID: " + dialogueId);
+
+        current = dialogue.Lines[dialogueId];
+
+        Answer1.GetComponent<TextMeshProUGUI>().text = "";
+        Answer2.GetComponent<TextMeshProUGUI>().text = "";
+        Answer3.GetComponent<TextMeshProUGUI>().text = "";
+
+        MainText.GetComponent<TextMeshProUGUI>().text = current.Text;
+        if (current.Children != null && current.Children.Count > 0)
+        {
+            Answer1.GetComponent<TextMeshProUGUI>().text = current.Children[0].Text;
+        }
+
+        if (current.Children != null && current.Children.Count > 1)
+        {
+            Answer2.GetComponent<TextMeshProUGUI>().text = current.Children[1].Text;
+        }
+
+        if (current.Children != null && current.Children.Count > 2)
+        {
+            Answer3.GetComponent<TextMeshProUGUI>().text = current.Children[2].Text;
+        }
+
+        if (current.Children == null || current.Children.Count == 0)
+        {
+            StartCoroutine(CloseAfter(5));
+        }
+    }
+
+    public void HideCurrent()
+    {
+        current = null;
+        TextGroup.SetActive(false);
+    }
+
+    private IEnumerator CloseAfter(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        HideCurrent();
     }
 }
