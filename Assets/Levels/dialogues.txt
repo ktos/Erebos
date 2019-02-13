@@ -1,0 +1,5 @@
+d1|Cześć!
+ Kim jesteś?|d2
+ Co to jest?|d3
+d2|Jestem Kaya.
+d3|To jest gra o nazwie kodowej "Erebos".
