@@ -161,9 +161,15 @@ public class DungeonGenerator
 
         for (int i = 0; i < tileMap.GetLength(0); i++)
         {
-            for (int j = 0; j < tileMap.GetLength(1); j++)
+            var end = tileMap.GetLength(1) > lines[i + 1].Length ? lines[i + 1].Length : tileMap.GetLength(1);
+
+            for (int j = 0; j < end; j++)
             {
                 tileMap[i, j] = TileHelper.TextToTileType(lines[i + 1][j]);
+                //for (int k = j; k < tileMap.GetLength(1); k++)
+                //{
+                //    tileMap[i, k] = TileType.Unused;
+                //}
             }
         }
 
