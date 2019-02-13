@@ -523,6 +523,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 493403322}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &518979303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518979302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bd9356d16b973643a9c6320b73150d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  irritation: 0
+  insanity: 0
 --- !u!1001 &838554399
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1351,16 +1365,31 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1512005603}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 438055a0df6442f41ba577f9469ba02f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxReduction: 0.2
-  MaxIncrease: 0.2
+  MaxReduction: 10
+  MaxIncrease: 10
   RateDamping: 0.1
   Strength: 300
-  StopFlickering: 0
+  StopFlickering: 1
+--- !u!114 &1512005607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512005603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4f7eeb9b15c8a1409ad0f303f77d3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Battery: 100
+  DischargeRate: 0.0001
+  TorchEnabled: 1
 --- !u!1001 &1553350761
 PrefabInstance:
   m_ObjectHideFlags: 0
