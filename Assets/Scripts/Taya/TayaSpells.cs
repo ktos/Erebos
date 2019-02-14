@@ -23,14 +23,16 @@ public class TayaSpells : MonoBehaviour
         Energy += ChargeRate;
     }
 
-    public void CreatePlatform()
+    public bool CreatePlatform()
     {
         if (Energy < CreatePlatformCost)
-            return;
+            return false;
 
         Energy -= CreatePlatformCost;
 
         Instantiate(PlatformPrefab, Player.transform.position + Vector3.forward, Quaternion.identity);
+
+        return true;
     }
 
     public void Start()

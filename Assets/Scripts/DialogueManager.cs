@@ -9,6 +9,8 @@ internal class DialogueLine
     public string Text { get; set; }
     public IList<DialogueLine> Children { get; set; }
     public string ActionId { get; set; }
+    public string LineSuccess { get; set; }
+    public string LineFail { get; set; }
 }
 
 internal class Dialogue
@@ -51,11 +53,19 @@ internal class Dialogue
                 var childSplitted = item.Trim().Split('|');
                 var childText = childSplitted[0];
                 string childAction = null;
+                string childActionSuccess = null;
+                string childActionFailure = null;
 
                 if (childSplitted.Length > 1)
                     childAction = childSplitted[1].TrimEnd();
 
-                current.Children.Add(new DialogueLine { Text = childText, ActionId = childAction });
+                if (childSplitted.Length > 2)
+                    childActionSuccess = childSplitted[2].TrimEnd();
+
+                if (childSplitted.Length > 3)
+                    childActionFailure = childSplitted[3].TrimEnd();
+
+                current.Children.Add(new DialogueLine { Text = childText, ActionId = childAction, LineSuccess = childActionSuccess, LineFail = childActionFailure });
             }
         }
         if (currentId != null)
@@ -82,6 +92,7 @@ public class DialogueManager : MonoBehaviour
     public TextAsset DialogueFile;
 
     private Dialogue dialogue;
+    private DialogueActionManager dialogueActionManager;
 
     private void Start()
     {
@@ -89,6 +100,8 @@ public class DialogueManager : MonoBehaviour
         {
             dialogue = Dialogue.FromFile(DialogueFile.text);
         }
+
+        dialogueActionManager = GetComponent<DialogueActionManager>();
         current = null;
     }
 
@@ -127,9 +140,26 @@ public class DialogueManager : MonoBehaviour
             var action = current.Children[number - 1].ActionId;
             if (action != null)
             {
-                if (action.StartsWith("d"))
+                if (action.StartsWith("goto_"))
                 {
-                    ShowLine(action);
+                    ShowLine(action.Substring(5));
+                }
+                else
+                {
+                    if (dialogueActionManager.RunAction(action))
+                    {
+                        if (current.Children[number - 1].LineSuccess != null)
+                        {
+                            ShowLine(current.Children[number - 1].LineSuccess);
+                        }
+                    }
+                    else
+                    {
+                        if (current.Children[number - 1].LineFail != null)
+                        {
+                            ShowLine(current.Children[number - 1].LineFail);
+                        }
+                    }
                 }
             }
             else
