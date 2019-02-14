@@ -94,8 +94,13 @@ public class DialogueManager : MonoBehaviour
     private Dialogue dialogue;
     private DialogueActionManager dialogueActionManager;
 
+    private static DialogueManager _instance;
+    public static DialogueManager Instance => _instance;
+
     private void Start()
     {
+        _instance = this;
+
         if (DialogueFile != null)
         {
             dialogue = Dialogue.FromFile(DialogueFile.text);

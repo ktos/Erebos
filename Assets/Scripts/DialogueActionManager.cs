@@ -12,9 +12,14 @@ public class DialogueActionManager : MonoBehaviour
 
     public Dictionary<string, Func<bool>> Actions;
 
+    private static DialogueActionManager _instance;
+    public static DialogueActionManager Instance => _instance;
+
     // Start is called before the first frame update
     private void Start()
     {
+        _instance = this;
+
         Actions = new Dictionary<string, Func<bool>>();
 
         tayaSpells = Taya.GetComponent<TayaSpells>();
