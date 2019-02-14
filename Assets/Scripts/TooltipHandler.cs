@@ -24,7 +24,7 @@ public class TooltipHandler : MonoBehaviour
         tooltips = TooltipLoader.FromFile(TooltipFile.text);
     }
 
-    public void ShowTooltip(string text, int secondsToClose)
+    public void ShowTooltip(string text, int secondsToClose = 5)
     {
         animator.SetBool("IsTooltipOpened", true);
         if (tooltips.ContainsKey(text))

@@ -11,6 +11,6 @@ public class LoadNextSceneTrigger : MonoBehaviour
         //if (sceneSwitcher != null)
         //    sceneSwitcher.FadedLoadScene("Scene01");
 
-        TooltipHandler.Instance?.ShowTooltip("Hello <b>Megan</b>!", 10);
+        TooltipHandler.Instance?.ShowTooltip("hello", 5);
     }
 }
