@@ -171,7 +171,7 @@ public class DialogueManager : MonoBehaviour
 
     public void ShowLine(string dialogueId)
     {
-        TextGroup.SetActive(true);
+        TextGroup.GetComponent<Animator>().SetBool("IsDialogueOpened", true);
 
         if (!dialogue.Lines.ContainsKey(dialogueId))
             throw new ArgumentException("Wrong dialogue ID: " + dialogueId);
@@ -207,7 +207,7 @@ public class DialogueManager : MonoBehaviour
     public void HideCurrent()
     {
         current = null;
-        TextGroup.SetActive(false);
+        TextGroup.GetComponent<Animator>().SetBool("IsDialogueOpened", false);
     }
 
     private IEnumerator CloseAfter(int seconds)
