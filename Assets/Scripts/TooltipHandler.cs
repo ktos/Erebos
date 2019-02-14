@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -6,6 +7,11 @@ public class TooltipHandler : MonoBehaviour
 {
     private Animator animator;
     private TextMeshProUGUI tooltip;
+
+    [Header("Tooltip Text Asset")]
+    public TextAsset TooltipFile;
+
+    private Dictionary<string, string> tooltips;
 
     private static TooltipHandler _instance;
 
@@ -16,12 +22,17 @@ public class TooltipHandler : MonoBehaviour
         animator = GetComponent<Animator>();
         tooltip = GetComponent<TextMeshProUGUI>();
         _instance = this;
+
+        tooltips = TooltipLoader.FromFile(TooltipFile.text);
     }
 
     public void ShowTooltip(string text, int secondsToClose)
     {
         animator.SetBool("IsTooltipOpened", true);
-        tooltip.text = text;
+        if (tooltips.ContainsKey(text))
+            tooltip.text = tooltips[text];
+        else
+            tooltip.text = text;
 
         StartCoroutine(CloseAfter(secondsToClose));
     }
@@ -31,5 +42,21 @@ public class TooltipHandler : MonoBehaviour
         yield return new WaitForSeconds(seconds);
 
         animator.SetBool("IsTooltipOpened", false);
+    }
+}
+
+public static class TooltipLoader
+{
+    public static Dictionary<string, string> FromFile(string contents)
+    {
+        var result = new Dictionary<string, string>();
+
+        foreach (var item in contents.Split('\n'))
+        {
+            var tip = item.Split('|');
+            result.Add(tip[0], tip[1].TrimEnd());
+        }
+
+        return result;
     }
 }
