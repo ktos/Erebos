@@ -16,4 +16,7 @@ by [Quaternius](http://quaternius.com/?i=1) (CC0);
 * [Modular Dungeon](https://drive.google.com/drive/folders/1W-d_8_yxx6r1hs0MW2bZrZbdnAzb8Gzb)
 by [Quaternius](http://quaternius.com/?i=1) (CC0);
 * Music [by Antti Luode](https://www.reddit.com/r/gamedev/comments/6y699a/i_have_released_my_1363_songs_free_under_creative/) (CC-BY);
-* Sound Effects: [Sonniss GameAudio GDC](https://www.reddit.com/r/gamedev/comments/85kzjw/30gb_of_high_quality_sound_effects_the_sonniss/) (royalty free).
+* Sound Effects: [Sonniss GameAudio GDC](https://www.reddit.com/r/gamedev/comments/85kzjw/30gb_of_high_quality_sound_effects_the_sonniss/) (royalty free);
+* Shaders: [ShaderGraph examples](https://github.com/UnityTechnologies/ShaderGraph_ExampleLibrary) by Unity, as-is;
+* Button Sprites: by [xelu](https://opengameart.org/content/free-keyboard-and-controllers-prompts-pack) (CC0);
+* [Kenney Particle Pack](https://kenney.nl/assets/particle-pack) (CC0)
