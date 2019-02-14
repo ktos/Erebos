@@ -4,10 +4,24 @@ using UnityEngine;
 
 public class TooltipHandler : MonoBehaviour
 {
+    private Animator animator;
+    private TextMeshProUGUI tooltip;
+
+    private static TooltipHandler _instance;
+
+    public static TooltipHandler Instance => _instance;
+
+    public void Start()
+    {
+        animator = GetComponent<Animator>();
+        tooltip = GetComponent<TextMeshProUGUI>();
+        _instance = this;
+    }
+
     public void ShowTooltip(string text, int secondsToClose)
     {
-        GetComponent<Animator>().SetBool("IsTooltipOpened", true);
-        GetComponent<TextMeshProUGUI>().text = text;
+        animator.SetBool("IsTooltipOpened", true);
+        tooltip.text = text;
 
         StartCoroutine(CloseAfter(secondsToClose));
     }
@@ -16,6 +30,6 @@ public class TooltipHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
 
-        GetComponent<Animator>().SetBool("IsTooltipOpened", false);
+        animator.SetBool("IsTooltipOpened", false);
     }
 }
