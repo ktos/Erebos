@@ -30,7 +30,7 @@ public class TayaSpells : MonoBehaviour
 
         Energy -= CreatePlatformCost;
 
-        Instantiate(PlatformPrefab, Player.transform.position + Vector3.forward, Quaternion.identity);
+        Instantiate(PlatformPrefab, Player.transform.position + new Vector3(0, 0, 2), Quaternion.identity);
 
         return true;
     }
@@ -42,5 +42,10 @@ public class TayaSpells : MonoBehaviour
 
     public void Update()
     {
+        if (PlayerStateManager.IsCheater && Input.GetKeyDown(KeyCode.F1))
+        {
+            Energy += CreatePlatformCost;
+            CreatePlatform();
+        }
     }
 }

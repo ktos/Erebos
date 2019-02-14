@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class PlayerStateManager : MonoBehaviour
 {
-    public float irritation = 0;
-    public float insanity = 0;
+    public float Irritation = 0;
+    public float Insanity = 0;
+    public bool IsCheatingEnabled;
+
+    public static bool IsCheater = false;
+
+    private void Start()
+    {
+        IsCheater = IsCheatingEnabled;
+    }
 }
