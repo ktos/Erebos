@@ -13,15 +13,13 @@ public class TooltipHandler : MonoBehaviour
 
     private Dictionary<string, string> tooltips;
 
-    private static TooltipHandler _instance;
-
-    public static TooltipHandler Instance => _instance;
+    public static TooltipHandler Instance { get; private set; }
 
     public void Start()
     {
         animator = GetComponent<Animator>();
         tooltip = GetComponent<TextMeshProUGUI>();
-        _instance = this;
+        Instance = this;
 
         tooltips = TooltipLoader.FromFile(TooltipFile.text);
     }

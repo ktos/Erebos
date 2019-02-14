@@ -12,11 +12,15 @@ public class TayaSpells : MonoBehaviour
     [Header("Spells Cost")]
     public float CreatePlatformCost = 100.0f;
 
+    public float CreateDecoyCost = 500.0f;
+
     [Header("Player")]
     public GameObject Player;
 
     [Header("Prefabs")]
     public Transform PlatformPrefab;
+
+    public Transform DecoyPrefab;
 
     public void Charge()
     {
@@ -24,6 +28,18 @@ public class TayaSpells : MonoBehaviour
     }
 
     public bool CreatePlatform()
+    {
+        if (Energy < CreatePlatformCost)
+            return false;
+
+        Energy -= CreatePlatformCost;
+
+        Instantiate(PlatformPrefab, Player.transform.position + new Vector3(0, 0, 2), Quaternion.identity);
+
+        return true;
+    }
+
+    public bool CreateDecoy()
     {
         if (Energy < CreatePlatformCost)
             return false;
@@ -46,6 +62,12 @@ public class TayaSpells : MonoBehaviour
         {
             Energy += CreatePlatformCost;
             CreatePlatform();
+        }
+
+        if (PlayerStateManager.IsCheater && Input.GetKeyDown(KeyCode.F2))
+        {
+            Energy += CreateDecoyCost;
+            CreateDecoy();
         }
     }
 }

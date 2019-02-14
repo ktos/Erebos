@@ -11,20 +11,19 @@ public class DialogueActionManager : MonoBehaviour
     private TayaSpells tayaSpells;
 
     public Dictionary<string, Func<bool>> Actions;
-
-    private static DialogueActionManager _instance;
-    public static DialogueActionManager Instance => _instance;
+    public static DialogueActionManager Instance { get; private set; }
 
     // Start is called before the first frame update
     private void Start()
     {
-        _instance = this;
+        Instance = this;
 
         Actions = new Dictionary<string, Func<bool>>();
 
         tayaSpells = Taya.GetComponent<TayaSpells>();
 
         Actions.Add("taya_create_platform", () => tayaSpells.CreatePlatform());
+        Actions.Add("taya_create_decoy", () => tayaSpells.CreateDecoy());
     }
 
     public bool RunAction(string actionId)

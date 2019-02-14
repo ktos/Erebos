@@ -93,13 +93,11 @@ public class DialogueManager : MonoBehaviour
 
     private Dialogue dialogue;
     private DialogueActionManager dialogueActionManager;
-
-    private static DialogueManager _instance;
-    public static DialogueManager Instance => _instance;
+    public static DialogueManager Instance { get; private set; }
 
     private void Start()
     {
-        _instance = this;
+        Instance = this;
 
         if (DialogueFile != null)
         {
