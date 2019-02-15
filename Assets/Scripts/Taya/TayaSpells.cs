@@ -17,6 +17,8 @@ public class TayaSpells : MonoBehaviour
     [Header("Player")]
     public GameObject Player;
 
+    public GameObject Sparks;
+
     [Header("Prefabs")]
     public Transform PlatformPrefab;
 
@@ -32,9 +34,10 @@ public class TayaSpells : MonoBehaviour
         if (Energy < CreatePlatformCost)
             return false;
 
+        TurnOnSparks();
         Energy -= CreatePlatformCost;
 
-        Instantiate(PlatformPrefab, Player.transform.position + new Vector3(0, 0, 2), Quaternion.identity);
+        Instantiate(PlatformPrefab, Player.transform.position + (Player.transform.forward * 2), Player.transform.rotation);
 
         return true;
     }
@@ -44,9 +47,10 @@ public class TayaSpells : MonoBehaviour
         if (Energy < CreatePlatformCost)
             return false;
 
+        TurnOnSparks();
         Energy -= CreatePlatformCost;
 
-        Instantiate(PlatformPrefab, Player.transform.position + new Vector3(0, 0, 2), Quaternion.identity);
+        Instantiate(DecoyPrefab, Player.transform.position + (Player.transform.forward * 2), Player.transform.rotation);
 
         return true;
     }
@@ -54,6 +58,18 @@ public class TayaSpells : MonoBehaviour
     public void Start()
     {
         InvokeRepeating("Charge", 0, 1.0f);
+    }
+
+    public IEnumerator TurnOffSparks()
+    {
+        yield return new WaitForSeconds(1);
+        Sparks.SetActive(false);
+    }
+
+    public void TurnOnSparks()
+    {
+        Sparks.SetActive(true);
+        StartCoroutine(TurnOffSparks());
     }
 
     public void Update()

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoadNextSceneTrigger : MonoBehaviour
+public class DoorEnterTrigger : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
@@ -11,6 +11,7 @@ public class LoadNextSceneTrigger : MonoBehaviour
         //if (sceneSwitcher != null)
         //    sceneSwitcher.FadedLoadScene("Scene01");
 
-        TooltipHandler.Instance?.ShowTooltip("hello", 5);
+        if (other.CompareTag("Player"))
+            TooltipHandler.Instance?.ShowTooltip("hello", 5);
     }
 }
